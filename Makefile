@@ -10,47 +10,51 @@
 #                                                                              #
 # **************************************************************************** #
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: lschawer <lschawer@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/04/27 15:21:59 by lschawer          #+#    #+#              #
-#    Updated: 2026/04/27 15:49:17 by lschawer         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 # 1. Variables
-NAME        = libft.a
+NAME        = ft_printf.a
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -D BUFFER_SIZE=42 <files>.c
+CFLAGS      = -Wall -Wextra -Werror
 AR          = ar rcs
 RM          = rm -f
 
+# Relative paths to navigate folder structure
+LIBFT_DIR   = ../../rank00/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
+
+# tells the compiler where to look for libft.h
+INCLUDES    = -I. -I$(LIBFT_DIR)
+
 # 2. Source Files
-SRCS        = ft_printf.c
+SRCS        = ft_printf.c ft_printf_hex.c \
+				ft_printf_decimal.c ft_printf_conversions.c
 
 # 3. Object Files
-# This pattern substitution replaces the .c extension with .o
 OBJS        = $(SRCS:.c=.o)
 
 # 4. Mandatory Rules
 all: $(NAME)
 
-$(NAME): $(OBJS)
+# i. First, build libft.a if it doesn't exist or has changed
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
+
+# ii. then compile .c files into .o files
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# iii. Combine objects with libft.a into ft_printf.a
+$(NAME): $(LIBFT) $(OBJS)
+	@cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(OBJS)
 
-# This rule explains how to compile .c files into .o files
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
 clean:
+	@make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@make fclean -C $(LIBFT_DIR)
+	r$(RM) $(NAME)
 
 re: fclean all
 
