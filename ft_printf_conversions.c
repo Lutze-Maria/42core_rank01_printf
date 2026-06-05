@@ -1,33 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_conversions.c                             :+:      :+:    :+:   */
+/*   ft_printf_conversions.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lschawer <lschawer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/05/01 18:17:19 by lschawer         ###   ########.fr       */
+/*   Created: 2026/06/04 18:55:50 by lschawer          #+#    #+#             */
+/*   Updated: 2026/06/05 13:14:09 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int handle_char(int c)
+int	ft_putchar(int c)
 {
-    ft_putchar_fd(c, 1);
-    return (1);
+	unsigned char	ch;
+	int				bytes_written;
+
+	ch = (unsigned char)c;
+	bytes_written = write(1, &c, 1);
+	if (bytes_written == -1)
+		return (-1);
+	else
+		return (bytes_written);
 }
 
-int handle_string(char *s)
+int	ft_putstr(char *s)
 {
-    int str_len;
+	int	bytes_written;
+	int	i;
 
-    if (!s)
-    {
-        ft_putstr_fd("(null)", 1);
-        return (6);
-    }
-    str_len = ft_strlen(s);
-    ft_putstr_fd(s, 1);
-    return (str_len);
+	bytes_written = 0;
+	if (!s)
+	{
+		bytes_written = write(1, "(null)", 6);
+		return (bytes_written);
+	}
+	i = 0;
+	while (s[i])
+	{
+		bytes_written += write(1, &s[i], 1);
+		i++;
+	}
+	return (bytes_written);
 }

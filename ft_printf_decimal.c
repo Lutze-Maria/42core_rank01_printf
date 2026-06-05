@@ -3,83 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_decimal.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lschawer <lschawer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/05/01 18:17:19 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/05 13:58:16 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdlib.h>
 
-int handle_int(int numb)
+int	ft_putnbr(long long numb)
 {
-    char    *s;
-    int     str_len;
-    
-    s = ft_itoa(numb);
-    if (!s)
-        return (0);
-    str_len = ft_strlen(s);
-    ft_putstr_fd(s, 1);
-    free (s);
-    return (str_len);
-}
+	int	counter;
 
-static void	ft_fillstr(char *s, unsigned int n, int len)
-{
-	while (n != 0)
+	counter = 0;
+	if (numb < 0)
 	{
-		s[len--] = (n % 10) + '0';
-		n = n / 10;
+		if (write(1, "-", 1) == -1)
+			return (-1);
+		counter++;
+		numb = -numb;
 	}
-}
-
-static int	ft_get_intsize(unsigned int n)
-{
-	int	len;
-
-	if (n == 0)
-		return (1);
-	len = 0;
-	while (n != 0)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
-}
-
-static char	*ft_utoa(unsigned int n)
-{
-	int		len;
-	char	*s;
-
-	len = ft_get_intsize(n);
-	s = malloc(sizeof(char) * (len + 1));
-	if (!s)
-		return (0);
-	s[len] = '\0';
-	if (n == 0)
-	{
-		s[0] = '0';
-		return (s);
-	}
-	ft_fillstr(s, n, (len - 1));
-	return (s);
-}
-
-int handle_unsign(unsigned int numb)
-{
-    char    *s;
-    int     str_len;
-    
-    s = ft_utoa(numb);
-    if (!s)
-        return (0);
-    str_len = ft_strlen(s);
-    ft_putstr_fd(s, 1);
-    free (s);
-    return (str_len);
+	if (numb > 9)
+		counter += ft_putnbr(numb / 10);
+	counter += ft_putchar((numb % 10) + '0');
+	return (counter);
 }

@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                      :+:      :+:    :+:   */
+/*   ft_printf_ptr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/01 18:15:12 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/05 13:13:03 by lschawer         ###   ########.fr       */
+/*   Created: 2026/06/04 19:13:38 by lschawer          #+#    #+#             */
+/*   Updated: 2026/06/05 13:14:26 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
+int	ft_putptr(void *ptr)
+{
+	unsigned long	num;
+	char			*base;
+	int				str_len;
 
-// main logic function
-int	ft_printf(const char *format, ...);
-
-// utility functions
-int	ft_putchar(int c);
-int	ft_putstr(char *s);
-int	ft_putnbr(long long i);
-int	ft_puthex(unsigned long hex, int is_upper);
-int	ft_putptr(void *ptr);
-
-#endif
+	num = (unsigned long)ptr;
+	base = "0123456789abcdef";
+	if (!ptr)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+	ft_putstr("0x");
+	str_len = 0;
+	str_len = ft_puthex(num, 0);
+	return (str_len + 2);
+}
