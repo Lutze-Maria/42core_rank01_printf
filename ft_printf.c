@@ -6,7 +6,7 @@
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/06 11:24:09 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/06 13:59:44 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_printf(const char *format, ...)
 	va_start(args, format);
 	while (*format)
 	{
-		if (*format == '%' && (format + 1))
+		if (*format == '%' && *(format + 1))
 		{
 			check = ft_handle_specifier(*(format + 1), &args);
 			if (check == -1)
