@@ -6,7 +6,7 @@
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/05 13:25:21 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/06 11:24:09 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,75 +61,64 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (sum);
 }
-
 /* 
 #include <stdio.h>
+#include <limits.h>
 
-int main(void)
+int	main(void)
 {
-	int ft_ret;
-	int std_ret;
+	int	ret1;
+	int	ret2;
 
-	printf("=== STARTING FT_PRINTF TESTS ===\n\n");
+	ft_printf("%c\n", 0);
+	ft_printf("%c%c%c\n", 'A', 'B', 'C');
 
-	// 1. Character (%c) and Percent (%%)
-	printf("--- Test 1: %%c and %%%%\n");
-	ft_ret = ft_printf("Mine: %c | %%\n", 'A');
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %c | %%\n", 'A');
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== CHAR ===\n");
+	ret1 = printf("printf    : %c\n", 'A');
+	ret2 = ft_printf("ft_printf : %c\n", 'A');
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 2. String (%s)
-	printf("--- Test 2: %%s (Standard and Empty)\n");
-	ft_ret = ft_printf("Mine: %s | %s\n", "Hello, 42!", "");
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %s | %s\n", "Hello, 42!", "");
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== STRING ===\n");
+	ret1 = printf("printf    : %s\n", "Hello");
+	ret2 = ft_printf("ft_printf : %s\n", "Hello");
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	printf("--- Test 2b: %%s (NULL Pointer)\n");
-	ft_ret = ft_printf("Mine: %s\n", (char *)NULL);
-	std_ret = printf("Std : %s\n", (char *)NULL);
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== POINTER ===\n");
+	int x = 42;
+	ret1 = printf("printf    : %p\n", &x);
+	ret2 = ft_printf("ft_printf : %p\n", &x);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 3. Integers (%d and %i)
-	printf("--- Test 3: %%d and %%i (Positive, Negative, Zero)\n");
-	ft_ret = ft_printf("Mine: %d | %i | %d\n", 42, -2147483647, 0);
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %d | %i | %d\n", 42, -2147483647, 0);
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== DECIMAL ===\n");
+	ret1 = printf("printf    : %d\n", -42);
+	ret2 = ft_printf("ft_printf : %d\n", -42);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 4. Unsigned Decimals (%u)
-	printf("--- Test 4: %%u (Standard and Max Unsigned Int)\n");
-	ft_ret = ft_printf("Mine: %u | %u\n", 12345, 4294967295U);
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %u | %u\n", 12345, 4294967295U);
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== INTEGER ===\n");
+	ret1 = printf("printf    : %i\n", 12345);
+	ret2 = ft_printf("ft_printf : %i\n", 12345);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 5. Hexadecimal (%x and %X)
-	printf("--- Test 5: %%x and %%X\n");
-	ft_ret = ft_printf("Mine: %x | %X | %x\n", 255, 3735928559U, 0);
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %x | %X | %x\n", 255, 3735928559U, 0);
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== UNSIGNED ===\n");
+	ret1 = printf("printf    : %u\n", 4294967295U);
+	ret2 = ft_printf("ft_printf : %u\n", 4294967295U);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 6. Pointer (%p)
-	printf("--- Test 6: %%p (Valid Address and NULL)\n");
-	int num = 42;
-	ft_ret = ft_printf("Mine: %p | %p\n", &num, NULL);
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : %p | %p\n", &num, NULL);
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== HEX LOWER ===\n");
+	ret1 = printf("printf    : %x\n", 255);
+	ret2 = ft_printf("ft_printf : %x\n", 255);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	// 7. Mixed Multi-argument String
-	printf("--- Test 7: Mixed Arguments\n");
-	ft_ret = ft_printf("Mine: Score: %d, Grade: %c, Hex: %x, 
-		User: %s\n", 95, 'A', 95, "Cadet");
-	write (1, "------------------\n", 19);
-	std_ret = printf("Std : Score: %d, Grade: %c, Hex: %x, 
-		User: %s\n", 95, 'A', 95, "Cadet");
-	printf("Return Value -> Mine: %d | Std: %d\n\n", ft_ret, std_ret);
+	printf("=== HEX UPPER ===\n");
+	ret1 = printf("printf    : %X\n", 255);
+	ret2 = ft_printf("ft_printf : %X\n", 255);
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
 
-	printf("=== TESTS COMPLETE ===\n");
+	printf("=== PERCENT ===\n");
+	ret1 = printf("printf    : %%\n");
+	ret2 = ft_printf("ft_printf : %%\n");
+	printf("ret printf=%d | ret ft_printf=%d\n\n", ret1, ret2);
+
 	return (0);
 }
-  */
+ */
