@@ -3,8 +3,23 @@
 
 
 ## Description
-The goal of this project: I recoded printf().
-I mainly learned about using a variable number of arguments.
+This project consists of recreating the standard C `printf()` function.<br>
+The main objective was to learn how to handle a variable number of arguments using the `stdarg.h` library while reproducing the behavior of several standard format specifiers.
+
+
+## Supported Conversions
+
+| Specifier | Description |
+|------------|-------------|
+| `%c` | Character |
+| `%s` | String |
+| `%p` | Pointer address |
+| `%d` | Signed decimal integer |
+| `%i` | Signed integer |
+| `%u` | Unsigned decimal integer |
+| `%x` | Hexadecimal (lowercase) |
+| `%X` | Hexadecimal (uppercase) |
+| `%%` | Percent sign |
 
 
 ## Instructions
@@ -21,9 +36,9 @@ The Makefile contains the following rules:
 **Using ft_printf**
 
 To use ft_printf() in your project, include the header and link the library:
-```
-cc main.c -L. -lft
- ```
+  ```
+  cc main.c libftprintf.a
+  ```
 
 ## Resources
 To build this library I have used the following resources:
@@ -33,5 +48,19 @@ To build this library I have used the following resources:
 * AI Assistance: Used for clarifying concepts.
 
 
-## Detailed about the algorithm
-... ...
+## Algorithm Overview: Parsing Logic
+The implementation consists of parsing a format string and dispatching conversion functions based on detected format specifiers using a variadic argument list.
+
+
+## Example
+
+```c
+#include "ft_printf.h"
+
+int main(void)
+{
+    ft_printf("Hello %s!\n", "world");
+    ft_printf("Value: %d\n", 42);
+    return (0);
+}
+```
