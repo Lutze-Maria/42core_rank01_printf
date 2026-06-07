@@ -6,23 +6,18 @@
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/05 13:54:24 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/07 11:07:53 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_puthex(unsigned long num, int is_upper)
+int	ft_puthex(unsigned long num, char *base)
 {
 	char	buffer[17];
-	char	*base;
 	int		i;
 	int		count;
 
-	if (is_upper == 0)
-		base = "0123456789abcdef";
-	else
-		base = "0123456789ABCDEF";
 	i = 16;
 	buffer[i] = '\0';
 	if (num == 0)

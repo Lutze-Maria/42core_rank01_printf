@@ -6,7 +6,7 @@
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/06 13:59:44 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/07 11:28:45 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	ft_handle_specifier(char specifier, va_list *args)
 	if (specifier == 'u')
 		return (ft_putnbr(va_arg(*args, unsigned int)));
 	if (specifier == 'x')
-		return (ft_puthex(va_arg(*args, unsigned int), 0));
+		return (ft_puthex(va_arg(*args, unsigned int), "0123456789abcdef"));
 	if (specifier == 'X')
-		return (ft_puthex(va_arg(*args, unsigned int), 1));
+		return (ft_puthex(va_arg(*args, unsigned int), "0123456789ABCDEF"));
 	if (specifier == 'p')
 		return (ft_putptr(va_arg(*args, void *)));
 	if (specifier == '%')
@@ -48,7 +48,7 @@ int	ft_printf(const char *format, ...)
 		{
 			check = ft_handle_specifier(*(format + 1), &args);
 			if (check == -1)
-				return (va_end(args), -1);
+				check = ft_putchar('%');
 			sum += check;
 			format += 2;
 		}
@@ -69,6 +69,10 @@ int	main(void)
 {
 	int	ret1;
 	int	ret2;
+
+	ft_printf("one %t three %s 1 %i 3\n", "two", 2);
+	   printf("one %t three %s 1 %i 3\n\n\n", "two", 2);
+
 
 	ft_printf("%c\n", 0);
 	ft_printf("%c%c%c\n", 'A', 'B', 'C');

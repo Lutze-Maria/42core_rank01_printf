@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by lschawer.*
+*This project has been created as part of the 42 curriculum by lschawer*
 # ft_printf
 
 
