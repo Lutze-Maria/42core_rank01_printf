@@ -6,7 +6,7 @@
 #    By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/01 18:13:34 by lschawer          #+#    #+#              #
-#    Updated: 2026/06/05 13:07:50 by lschawer         ###   ########.fr        #
+#    Updated: 2026/06/08 11:15:49 by lschawer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM          = rm -f
 
 # 2. Source Files
 SRCS        = ft_printf.c ft_printf_hex.c ft_printf_ptr.c\
-				ft_printf_decimal.c ft_printf_conversions.c
+				ft_printf_decimal.c ft_printf_conversions.c\
 
 # 3. Object Files
 OBJS        = $(SRCS:.c=.o)

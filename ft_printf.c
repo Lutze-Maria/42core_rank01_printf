@@ -6,13 +6,13 @@
 /*   By: lschawer <lschawer@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 18:12:43 by lschawer          #+#    #+#             */
-/*   Updated: 2026/06/07 11:28:45 by lschawer         ###   ########.fr       */
+/*   Updated: 2026/06/08 11:17:21 by lschawer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_handle_specifier(char specifier, va_list *args)
+int	ft_handle_specifier(char specifier, va_list *args)
 {
 	if (specifier == 'c')
 		return (ft_putchar(va_arg(*args, int)));
@@ -33,30 +33,55 @@ static int	ft_handle_specifier(char specifier, va_list *args)
 	return (-1);
 }
 
+int	is_specifier(char c)
+{
+	return (c == 'c'
+		|| c == 's'
+		|| c == 'p'
+		|| c == 'd'
+		|| c == 'i'
+		|| c == 'u'
+		|| c == 'x'
+		|| c == 'X'
+		|| c == '%');
+}
+
+int	parse_conversion(const char *fmt, va_list *args, int *consumed)
+{
+	int	i;
+
+	i = 1;
+	while (fmt[i] == ' ')
+		i++;
+	*consumed = i;
+	if (is_specifier(fmt[i]))
+		return (ft_handle_specifier(fmt[i], args));
+	return (ft_putchar('%'));
+}
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		sum;
-	int		check;
+	int		written;
+	int		consumed;
 
 	sum = 0;
-	check = 0;
 	va_start(args, format);
 	while (*format)
 	{
 		if (*format == '%' && *(format + 1))
 		{
-			check = ft_handle_specifier(*(format + 1), &args);
-			if (check == -1)
-				check = ft_putchar('%');
-			sum += check;
-			format += 2;
+			written = parse_conversion(format, &args, &consumed);
+			if (written == -1)
+				return (-1);
+			format += consumed + 1;
 		}
 		else
-		{
-			sum += write(1, format, 1);
-			format++;
-		}
+			written = write(1, format++, 1);
+		if (written == -1)
+			return (-1);
+		sum += written;
 	}
 	va_end(args);
 	return (sum);
@@ -70,12 +95,18 @@ int	main(void)
 	int	ret1;
 	int	ret2;
 
-	ft_printf("one %t three %s 1 %i 3\n", "two", 2);
-	   printf("one %t three %s 1 %i 3\n\n\n", "two", 2);
+	ret1 = printf("a %t c d\n", 'b');
+	ret2 = ft_printf("a %t c d\n", 'b');
+	printf("ret printf=%d | ret ft_printf=%d\n\n\n", ret1, ret2);
 
+	ret1 = printf("a %    c c d\n", 'b');
+	ret2 = ft_printf("a %    c c d\n", 'b');
+	printf("ret printf=%d | ret ft_printf=%d\n\n\n", ret1, ret2);
 
-	ft_printf("%c\n", 0);
-	ft_printf("%c%c%c\n", 'A', 'B', 'C');
+	ret1 = printf("a % \n", 'b');
+	ret2 = ft_printf("a % \n", 'b');
+	printf("ret printf=%d | ret ft_printf=%d\n\n\n", ret1, ret2);
+
 
 	printf("=== CHAR ===\n");
 	ret1 = printf("printf    : %c\n", 'A');

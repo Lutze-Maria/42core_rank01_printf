@@ -19,6 +19,7 @@
 
 // main logic function
 int	ft_printf(const char *format, ...);
+int	ft_handle_specifier(char specifier, va_list *args);
 
 // utility functions
 int	ft_putchar(int c);
@@ -26,5 +27,9 @@ int	ft_putstr(char *s);
 int	ft_putnbr(long long i);
 int	ft_puthex(unsigned long hex, char *base);
 int	ft_putptr(void *ptr);
+
+// edge cases
+int	is_specifier(char c);
+int	parse_conversion(const char *fmt, va_list *args, int *consumed);
 
 #endif
